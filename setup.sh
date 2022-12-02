@@ -159,12 +159,14 @@ if [[ "$PRINT_MODE" == true ]]; then
 	else
 		RELEASE_MANIFEST=$(curl --connect-timeout 15 --retry 5 "$MANIFEST_URL")
 	fi
+  echo "DD: Loading manifest $RELEASE_MANIFEST"
 
 	if [[ "$CHANNEL" == master ]]; then
 		VERSION_MANIFEST="{\"channel\":\"$CHANNEL\",\"version\":\"$CHANNEL\",\"dart_sdk_arch\":\"$ARCH\",\"hash\":\"$CHANNEL\",\"sha256\":\"$CHANNEL\"}"
 	else
 		VERSION_MANIFEST=$(get_version_manifest)
 	fi
+  echo "DD: Loading channel $VERSION_MANIFEST"
 
 	if [[ -z "$VERSION_MANIFEST" ]]; then
 		not_found_error "$CHANNEL" "$VERSION" "$ARCH"
@@ -172,6 +174,7 @@ if [[ "$PRINT_MODE" == true ]]; then
 	fi
 
 	version_info=$(echo "$VERSION_MANIFEST" | jq -j '.channel,":",.version,":",.dart_sdk_arch')
+  echo "DD: Loading vinfo $version_info"
 
 	if [[ "$version_info" == *null* ]]; then
 		not_found_error "$CHANNEL" "$VERSION" "$ARCH"
