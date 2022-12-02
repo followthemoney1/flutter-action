@@ -117,13 +117,16 @@ VERSION_MANIFEST=""
 
 get_version_manifest() {
 	version_normalized=$(normalize_version "$VERSION")
+	echo "Loading manifest --- normalized: $version_normalized"
 	version_manifest=$(echo "$RELEASE_MANIFEST" | get_version "$CHANNEL" "$version_normalized" "$ARCH")
 
+	echo "Loading manifest --- version: $version_manifest"
 	if [[ "$version_manifest" == null ]]; then
 		version_manifest=$(echo "$RELEASE_MANIFEST" | legacy_wildcard_version "$CHANNEL" "v$version_normalized")
 	fi
 
 	version_arch=$(echo "$version_manifest" | jq -r '.dart_sdk_arch')
+	echo "Loading manifest --- prefinal version arch: $version_arch"
 
 	if [[ "$version_arch" == null ]]; then
 		if [[ "$ARCH" == x64 ]]; then
@@ -134,6 +137,8 @@ get_version_manifest() {
 	else
 		echo "$version_manifest"
 	fi
+
+	echo "Loading manifest --- final ref: version_manifest: $version_manifest, version_arch: $version_arch"
 }
 
 expand_key() {
@@ -159,7 +164,7 @@ if [[ "$PRINT_MODE" == true ]]; then
 	else
 		RELEASE_MANIFEST=$(curl --connect-timeout 15 --retry 5 "$MANIFEST_URL")
 	fi
-  echo "DD: Loading manifest $RELEASE_MANIFEST"
+  echo "DD: Loading manifest success"
 
 	if [[ "$CHANNEL" == master ]]; then
 		VERSION_MANIFEST="{\"channel\":\"$CHANNEL\",\"version\":\"$CHANNEL\",\"dart_sdk_arch\":\"$ARCH\",\"hash\":\"$CHANNEL\",\"sha256\":\"$CHANNEL\"}"
