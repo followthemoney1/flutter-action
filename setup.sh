@@ -212,6 +212,7 @@ SDK_CACHE=$(expand_key "$CACHE_PATH")
 PUB_CACHE=$(expand_key "$SDK_CACHE/.pub-cache")
 
 if [[ ! -x "$SDK_CACHE/bin/flutter" ]]; then
+  	echo "DD: Load bin/flutter with channel: $CHANNEL"
 	if [[ $CHANNEL == master ]]; then
 		git clone -b master https://github.com/flutter/flutter.git "$SDK_CACHE"
 	else
@@ -226,6 +227,7 @@ if [[ ! -x "$SDK_CACHE/bin/flutter" ]]; then
 		ARCHIVE_PATH=$(echo "$VERSION_MANIFEST" | jq -r '.archive')
 		download_archive "$ARCHIVE_PATH" "$SDK_CACHE"
 	fi
+	  echo "DD: Loaded bin/flutter with channel: $CHANNEL"
 fi
 
 {

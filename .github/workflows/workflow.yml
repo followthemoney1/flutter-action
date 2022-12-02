@@ -38,21 +38,21 @@ jobs:
       shell: bash
     - run: flutter --version
       shell: bash
-  test_cache:
-    runs-on: ${{ matrix.operating-system }}
-    strategy:
-      matrix:
-        operating-system: [ubuntu-latest, windows-latest, macos-latest]
-    steps:
-    - uses: actions/checkout@v3
-    - uses: ./
-      with:
-        channel: stable
-        cache: true
-    - run: dart --version
-      shell: bash
-    - run: flutter --version
-      shell: bash
+#  test_cache:
+#    runs-on: ${{ matrix.operating-system }}
+#    strategy:
+#      matrix:
+#        operating-system: [ubuntu-latest, windows-latest, macos-latest]
+#    steps:
+#    - uses: actions/checkout@v3
+#    - uses: ./
+#      with:
+#        channel: stable
+#        cache: true
+#    - run: dart --version
+#      shell: bash
+#    - run: flutter --version
+#      shell: bash
   test_print_output:
     runs-on: macos-latest
     steps:
