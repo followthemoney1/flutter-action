@@ -157,7 +157,7 @@ if [[ "$PRINT_MODE" == true ]]; then
 	if [[ "$USE_TEST_FIXTURE" == true ]]; then
 		RELEASE_MANIFEST=$(cat "$MANIFEST_TEST_FIXTURE")
 	else
-		RELEASE_MANIFEST=$(curl --silent --connect-timeout 15 --retry 5 "$MANIFEST_URL")
+		RELEASE_MANIFEST=$(curl --connect-timeout 15 --retry 5 "$MANIFEST_URL")
 	fi
 
 	if [[ "$CHANNEL" == master ]]; then
@@ -177,7 +177,9 @@ if [[ "$PRINT_MODE" == true ]]; then
 		not_found_error "$CHANNEL" "$VERSION" "$ARCH"
 		exit 1
 	fi
-
+	
+	echo "DD: Load manifest success $VERSION_MANIFEST"
+	
 	info_channel=$(echo "$version_info" | awk -F ':' '{print $1}')
 	info_version=$(echo "$version_info" | awk -F ':' '{print $2}')
 	info_architecture=$(echo "$version_info" | awk -F ':' '{print $3}')
@@ -213,7 +215,7 @@ if [[ ! -x "$SDK_CACHE/bin/flutter" ]]; then
 	if [[ $CHANNEL == master ]]; then
 		git clone -b master https://github.com/flutter/flutter.git "$SDK_CACHE"
 	else
-		RELEASE_MANIFEST=$(curl --silent --connect-timeout 15 --retry 5 "$MANIFEST_URL")
+		RELEASE_MANIFEST=$(curl --connect-timeout 15 --retry 5 "$MANIFEST_URL")
 		VERSION_MANIFEST=$(get_version_manifest)
 
 		if [[ -z "$VERSION_MANIFEST" ]]; then
