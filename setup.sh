@@ -87,7 +87,7 @@ download_archive() {
 CACHE_PATH=""
 CACHE_KEY=""
 PRINT_MODE=""
-USE_TEST_FIXTURE=false
+USE_TEST_FIXTURE=true
 ARCH=""
 VERSION=""
 
@@ -138,7 +138,7 @@ get_version_manifest() {
 		echo "$version_manifest"
 	fi
 
-	echo "Loading manifest --- final ref: version_manifest: $version_manifest, version_arch: $version_arch"
+	echo "Loading manifest --- final ref: version_manifest: $version_manifest, version_arch: $version_arch ARCH: $ARCH"
 }
 
 expand_key() {
